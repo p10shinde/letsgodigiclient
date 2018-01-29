@@ -1,4 +1,5 @@
 window.onerror = function(msg, file, line, col, error) {
+	//this will show any error message
 	alert(msg);
 }; 
 
