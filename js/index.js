@@ -3,6 +3,7 @@ window.onerror = function(msg, file, line, col, error) {
 	alert(msg);
 }; 
 
+//app is not using this deviceID
 var app = {};
 app.deviceid = document.URL.split("?")[1];
 app.groupName = document.URL.split("?")[2];	
