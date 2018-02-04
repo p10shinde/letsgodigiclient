@@ -2,6 +2,35 @@
 
 var db;
 
+// app.fireConfig = {
+//     apiKey: "AIzaSyCZAKwAQNkBed1tqss0qcepaX2koH1XSss",
+//     authDomain: "digitaladvertisemntsviewdata.firebaseapp.com",
+//     databaseURL: "https://digitaladvertisemntsviewdata.firebaseio.com",
+//     projectId: "digitaladvertisemntsviewdata",
+//     storageBucket: "digitaladvertisemntsviewdata.appspot.com",
+//     messagingSenderId: "1075588574618"
+//   }
+
+app.fireConfig = {
+    apiKey: "AIzaSyB97ywis2ZFyoKpJ_wrMdJqgsJ7S_CDWyQ",
+    authDomain: "for-lgd-schedule.firebaseapp.com",
+    databaseURL: "https://for-lgd-schedule.firebaseio.com",
+    projectId: "for-lgd-schedule",
+    storageBucket: "for-lgd-schedule.appspot.com",
+    messagingSenderId: "848626933775"
+  }
+
+
+$(".loadingText").text('Initializing...')
+firebase.initializeApp(app.fireConfig);
+  // db = firebase.firestore(); 
+firebase.firestore().enablePersistence()
+  .then(function() {
+  db = firebase.firestore(); 
+  $(".loadingText").text('All set');
+    // callback();
+  })  
+
 function Node(resName, duration) {
   this.resName = resName;
   // this.resType = resType;
@@ -65,39 +94,14 @@ var thirdllSH2 = new CircularList();
 var thirdll = new CircularList();
 var fourthll = new CircularList();
 
-
-// var firstJSON = {};
-// var secondJSON = {};
-// var thirdJSON = {};
-// var fourthJSON = {};
-
-/*
-  Function to read data from local database on startup
-*/
-//1.Read from first_folder
-// function initializeChannel1(){
-  // firstll = new CircularList();
-  // collection = db.collection('ch1_g').doc(app.deviceid).collection('data')
-  // collection.get().then(function(coll) {
-  //     console.log("Initializing Channel 1 general...=>" + coll.docs.length);
-  //   $.each(coll.docs, function(index,value){
-  //     value = value.data(); 
-  //     firstll.add(value.resName, value.resType, value.duration);
-  //   })
-  // })
-// }
-
-
 app.checkIfUserIsLoggedIn = function(){
   return app.isuserloggedin;
 }
 
 
 function getFileBasedOnTime(channel,time,callback){
-  // if(channel == 'channel1') collection_name = "ch1_p"
-  // if(channel == 'channel2') collection_name = "ch2_p"
-  // if(channel == 'channel3') collection_name = "ch3_p"
-  // if(channel == 'channel4') collection_name = "tickers"
+  console.log(channel + ' is in queue.....')
+
 
   var format = 'HH:mm'
   var time = moment(new Date(time),format),
@@ -116,14 +120,9 @@ function getFileBasedOnTime(channel,time,callback){
   }
 
   time = moment(time).format('YYYY-MM-DD_HH:mm')
-  if(!app.checkIfUserIsLoggedIn()){
-    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-      console.log('signed in')
-      app.isuserloggedin = true;
-    }).catch(function(err){
-            console.log(err)
-          })
-  }
+  // if(!app.checkIfUserIsLoggedIn()){
+  //   app.authorizeUser();
+  // }
   docRef = db.collection(channel).doc(app.groupName).collection('data').doc(time);
 
   if(channel == "ch2_p" || channel == "ch3_p")
@@ -140,18 +139,14 @@ function getFileBasedOnTime(channel,time,callback){
   if(channel == "tickers")
       docRef = db.collection(channel).doc(app.groupName)
 
+  
   docRef.get().then(function(doc) {
+  console.log(channel + ' processed.....')
       var nextFile = {};
       if (doc.exists) {
           console.log("Got New Planned data for " + channel);
           nextFile = doc.data();
 
-          // if(channel == "ch2_p"){
-          //     nextFile = secondll.getNextNode();
-          // }
-          // if(channel == "ch3_p"){
-          //   nextFile = thirdll.getNextNode();
-          // }
           if(channel == 'ch1_p'){
             $(".ovalWrapper").hide();
           }
@@ -181,39 +176,30 @@ function getFileBasedOnTime(channel,time,callback){
           }
           else if(channel == "ch2_p")
           {
-            // nextFile = secondll.getNextNode();
             nextFile = {resName:"../advt/default.png"};
-            // nextFile = {startTime : time, resType : "image", resName:"../advt/default.png"};
           }
           else if(channel == "ch3_p")
           {
-            // nextFile = thirdll.getNextNode();
             nextFile = {resName:"../advt/default.png"};
-            // nextFile = {startTime : time, resType : "image", resName:"../advt/default.png"};
           }
           if(channel == 'ch2_sh1'){
-            // nextFile = secondllSH1.getNextNode();
             nextFile = {resName:"../advt/default.png"};
           }
 
           if(channel == 'ch2_sh2'){
-            // nextFile = secondllSH2.getNextNode();
             nextFile = {resName:"../advt/default.png"};
           }
 
           if(channel == 'ch3_sh1'){
-            // nextFile = thirdllSH1.getNextNode();
             nextFile = {resName:"../advt/default.png"};
           }
 
           if(channel == 'ch3_sh2'){
-            // nextFile = thirdllSH2.getNextNode();
             nextFile = {resName:"../advt/default.png"};
           }
           else if(channel == "tickers")
           {
             nextFile = {startTime : time,text:"WELCOME TO PRATEEK LAUREL"};
-            // nextFile = fourthll.getNextNode();
           }
       }
       callback(nextFile);
@@ -225,37 +211,30 @@ function getFileBasedOnTime(channel,time,callback){
           }
           else if(channel == "ch2_p")
           {
-            // nextFile = secondll.getNextNode();
             nextFile = {resName:"../advt/default.png"};
           }
           else if(channel == "ch3_p")
           {
             nextFile = {resName:"../advt/default.png"};
-            // nextFile = thirdll.getNextNode();
           }
           if(channel == 'ch2_sh1'){
-            // nextFile = secondllSH1.getNextNode();
             nextFile = {resName:"../advt/default.png"};
           }
 
           if(channel == 'ch2_sh2'){
-            // nextFile = secondllSH2.getNextNode();
             nextFile = {resName:"../advt/default.png"};
           }
 
           if(channel == 'ch3_sh1'){
-            // nextFile = thirdllSH1.getNextNode();
             nextFile = {resName:"../advt/default.png"};
           }
 
           if(channel == 'ch3_sh2'){
             nextFile = {resName:"../advt/default.png"};
-            // nextFile = thirdllSH2.getNextNode();
           }
           else if(channel == "tickers")
           {
             nextFile = {startTime : time,text:"WELCOME TO PRATEEK LAUREL"};
-            // nextFile = fourthll.getNextNode();
           }
           callback(nextFile);
       }
@@ -263,82 +242,59 @@ function getFileBasedOnTime(channel,time,callback){
   });
 }
 
+// function checkInternetConnection(callback){
+//   $.ajax({
+//     url:"https://reqres.in/api/users",
+//     complete : function(jqxhr,status) {
+//       if(status == "success") callback(true)
+//         else callback(false)
+//     }
+//   })
+// }
 
-
-function initializeFirebase(callback){
-  firebase.initializeApp(app.config);
-  if(navigator.onLine){
-    // alert('authenticating firebase user')
-    $(".loadingText").text('Authorizing...')
-    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){    
-        // alert('user authorized')
-        // alert('enabling persistance')
-        $(".loadingText").text('Authorization success');
-  		  app.isuserloggedin = true;
-        firebase.firestore().enablePersistence()
-  		  .then(function() {
-        $(".loadingText").text('Setting up data...')
-        db = firebase.firestore(); 
-
-          
-        
-
-        // db.collection("ch2_p").doc(app.deviceid).collection('data')
-        // .onSnapshot(function(querySnapshot) {
-        //     initializeSecondChannel();
-        //     // firstll = new CircularList();
-        //     // querySnapshot.forEach(function(doc) {
-        //     //     value = doc.data();
-        //     //     firstll.add(value.resName, value.resType, value.duration);
-        //     //     console.log("Initializing Channel 1 general...=>" + querySnapshot.size);
-        //     // });
-        // });
-
-          // alert('persistance enabled')
-        callback();
-  		  })
-  		  .catch(function(err) {
-  			  if (err.code == 'failed-precondition') {
-  				alert("Cannot open multiple tabs");
-  			  } else if (err.code == 'unimplemented') {
-  				alert("Browser does not support");
-  			  }
-  		  });
-  	}).catch(function(error){
-  		var errorCode = error.code;
-  		var errorMessage = error.message;
-  		console.log("Error : " + errorCode +  " === Message : " + errorMessage);
-      if(errorMessage == "A network error (such as timeout, interrupted connection or unreachable host) has occurred."){
-        firebase.firestore().enablePersistence()
-          .then(function() {
-          db = firebase.firestore(); 
-            callback();
-          })
-      }
-  	});
-  }else{
-    $(".loadingText").text('Going offline...');
-    firebase.firestore().enablePersistence()
-      .then(function() {
-      db = firebase.firestore(); 
-        callback();
-      })
-  }
-
-  // firebase.firestore().enablePersistence()
-  //   .then(function() {
-  //   db = firebase.firestore(); 
-  //   callback();
-  //   })
-  //   .catch(function(err) {
-  //     if (err.code == 'failed-precondition') {
-  //     alert("Cannot open multiple tabs");
-  //     } else if (err.code == 'unimplemented') {
-  //     alert("Browser does not support");
-  //     }
-  //   });
-  
-}
+// function initializeFirebase(){
+//   // firebase.initializeApp(app.config);
+//   checkInternetConnection(function(ifavailable){
+//     // if(ifavailable){
+//       $(".loadingText").text('Authorizing...')
+//      //  firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){    
+//      //      $(".loadingText").text('Authorization success');
+//       //    app.isuserloggedin = true;
+//      //      firebase.firestore().enablePersistence()
+//       //    .then(function() {
+//      //      $(".loadingText").text('Setting up data...')
+//      //      db = firebase.firestore(); 
+//      //      callback();
+//       //    })
+//       //    .catch(function(err) {
+//       //      if (err.code == 'failed-precondition') {
+//       //      alert("Cannot open multiple tabs");
+//       //      } else if (err.code == 'unimplemented') {
+//       //      alert("Browser does not support");
+//       //      }
+//       //    });
+//       // }).catch(function(error){
+//       //  var errorCode = error.code;
+//       //  var errorMessage = error.message;
+//       //  console.log("Error : " + errorCode +  " === Message : " + errorMessage);
+//      //    if(errorMessage == "A network error (such as timeout, interrupted connection or unreachable host) has occurred."){
+//           // firebase.firestore().enablePersistence()
+//           //   .then(function() {
+//           //   db = firebase.firestore(); 
+//           //     // callback();
+//           //   })
+//      //    }
+//       // });
+//     // }else{
+//       $(".loadingText").text('Going offline...');
+//       // firebase.firestore().enablePersistence()
+//       //   .then(function() {
+//       //   // db = firebase.firestore(); 
+//       //     // callback();
+//       //   })
+//     // }
+//   })
+// }
 
 function ifFirebaseIsEstablished(){
   if(!db) return false
@@ -352,55 +308,35 @@ function ifFirebaseIsEstablished(){
   }
 }
 
-function getCampaignFromFirebase(time,callback){
-  time = moment(time).format('YYYY-MM-DD')
-  if(!app.checkIfUserIsLoggedIn()){
-    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-      console.log('signed in')
-      app.isuserloggedin = true;
-    }).catch(function(err){
-            console.log(err)
-          })
-  }
-  docRef = db.collection('campaigns').doc(app.groupName).collection('data').doc(time);
-  docRef.get().then(function(doc) {
-      if (doc.exists) {
-          callback(doc.data())
-      } else {
-          callback({})
-      }
-  }).catch(function(error) {
-      if(error.message == "Failed to get document because the client is offline."){
-          callback({})
-      }
-      console.log("Error getting document:", error);
-  });
-
-  // collection.where("startTime","<=",time).onSnapshot({includeQueryMetadataChanges: true}, function(snapshot) {
-  //   docs = snapshot.docs;
-  //   if(docs.length != 0){
-  //     callback(docs[0].data())
-  //   }
-  //   // callback(callbackData);
-  // });
-
-
-  // db.collection('campaigns').get().then(function(snapshot){ 
-  //   callback(snapshot.docs[0].data())
-  // }).catch(function(err){
-  //   console.log(err);
-  // });
-}
+// function getCampaignFromFirebase(time,callback){
+//   time = moment(time).format('YYYY-MM-DD')
+//   if(!app.checkIfUserIsLoggedIn()){
+//     firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
+//       console.log('signed in')
+//       app.isuserloggedin = true;
+//     }).catch(function(err){
+//             console.log(err)
+//           })
+//   }
+//   docRef = db.collection('campaigns').doc(app.groupName).collection('data').doc(time);
+//   docRef.get().then(function(doc) {
+//       if (doc.exists) {
+//           callback(doc.data())
+//       } else {
+//           callback({})
+//       }
+//   }).catch(function(error) {
+//       if(error.message == "Failed to get document because the client is offline."){
+//           callback({})
+//       }
+//       console.log("Error getting document:", error);
+//   });
+// }
 
 function getVideoFromFirebase(time,callback){
 
   if(!app.checkIfUserIsLoggedIn()){
-    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-      console.log('signed in')
-      app.isuserloggedin = true;
-    }).catch(function(err){
-            console.log(err)
-          })
+    app.authorizeUser();
 
   }
   callbackData = {};
@@ -422,28 +358,11 @@ function getVideoFromFirebase(time,callback){
       }
       console.log("Error getting document:", error);
   });
-
-
-  // collection.where("startTime","==",time).onSnapshot({includeQueryMetadataChanges: true}, function(snapshot) {
-  //   docs = snapshot.docs;
-  //   if(docs.length != 0){
-  //     callbackData.data = docs[0].data();
-  //     callbackData.type = "video"
-  //   }
-  //   callback(callbackData);
-  // });
-
-    
 }
 
 function getSOSFromFirebase(time,callback){
   if(!app.checkIfUserIsLoggedIn()){
-    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-      console.log('signed in')
-      app.isuserloggedin = true;
-    }).catch(function(err){
-            console.log(err)
-          })
+    app.authorizeUser();
   }
   callbackData = {};
   time = moment(time).format('YYYY-MM-DD_HH:mm')
@@ -464,54 +383,4 @@ function getSOSFromFirebase(time,callback){
       }
       console.log("Error getting document:", error);
   });
-
-
-
-
-
-  // collection.where("startTime","==",time).onSnapshot({includeQueryMetadataChanges: true}, function(snapshot) {
-  //   docs = snapshot.docs;
-  //   console.log("Received SOS request...=>" + docs.length);
-  //   if(docs.length != 0){
-  //     callbackData.data = docs[0].data();
-  //     callbackData.type = "sos";
-  //   }
-  //   callback(callbackData);
-  // });
 }
-
-// function getChannelDataFromFirebase(channel,currentTime,callback){
-//   collection = db.collection('channels')
-//   collection.where("startTime","<=",new Date().toISOString()).onSnapshot({includeQueryMetadataChanges: true}, function(snapshot) {
-//     if(snapshot.docs) console.log(snapshot.docs.length)
-//         // snapshot.docChanges.forEach(function(change) {
-//         // });
-
-
-//   // then(function(snapshot){ 
-//   //   callback(snapshot.docs.length)
-//   // }).catch(function(err){
-//   //   console.log(err);
-//   // });
-//   // callback({});
-//   });
-// };
-
-
-
-// initializeChannel1();
-
-
-
-
-// Initialize Cloud Firestore through firebase
-      // var db = firebase.firestore();
-      // db.collection("user").onSnapshot({includeQueryMetadataChanges: true}, function(snapshot) {
-      //   snapshot.docChanges.forEach(function(change) {
-      //     if (change.type === "added") {
-      //       var userData = change.doc.data();
-      //     }
-      //     var source = snapshot.metadata.fromCache ? "local cache" : "server";
-      //     console.log("Data came from " + source);
-      //   });
-      // });
