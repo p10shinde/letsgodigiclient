@@ -841,17 +841,19 @@ window.onload = function(){
 		// initializeSecondChannel();
 		// initializeThirdChannel();
 		// initializeFourthChannel();
-		
+		function authorizeUser(){
+		    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
+		      console.log('signed in')
+		      app.isuserloggedin = true;
+		    }).catch(function(err){
+		    	console.log(err)
+		    })
+	}
 		// db.collection("ch1_g").doc(app.deviceid).collection('data')
 		db.collection("ch1_g").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
 	        if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser()
 			  }
 	          firstll = new CircularList();
 	          firstllArray = [];
@@ -872,12 +874,7 @@ window.onload = function(){
 	    db.collection("ch1_p").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
 	      	if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser()
 			  }
 	          initializeFirstChannel();
 	      	// }else{
@@ -892,12 +889,7 @@ window.onload = function(){
 		db.collection("ch2_p").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
 	          if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser();
 			  }
 	          	secondll = new CircularList();
 		          querySnapshot.forEach(function(doc) {
@@ -920,12 +912,7 @@ window.onload = function(){
 	    db.collection("ch3_p").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
 	          if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser();
 			  }
 	          	thirdll = new CircularList();
 		          querySnapshot.forEach(function(doc) {
@@ -947,12 +934,7 @@ window.onload = function(){
 	    db.collection("ch2_sh1").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
 	        if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser();
 			  }
 	          secondllSH1 = new CircularList();
 		          querySnapshot.forEach(function(doc) {
@@ -971,12 +953,7 @@ window.onload = function(){
 	    db.collection("ch2_sh2").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
 	        if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser();
 			  }
 	          secondllSH2 = new CircularList();
 		          querySnapshot.forEach(function(doc) {
@@ -995,12 +972,7 @@ window.onload = function(){
 	    db.collection("ch3_sh1").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
 	        if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser();
 			  }
 	          thirdllSH1 = new CircularList();
 		          querySnapshot.forEach(function(doc) {
@@ -1019,12 +991,7 @@ window.onload = function(){
 	    db.collection("ch3_sh2").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
 	        if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser();
 			  }
 	          thirdllSH2 = new CircularList();
 		          querySnapshot.forEach(function(doc) {
@@ -1044,12 +1011,7 @@ window.onload = function(){
 	    db.collection("tickers").doc(app.groupName)
 	      .onSnapshot(function(querySnapshot) {
 	          if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser();
 			  }
 	          	initializeFourthChannel();
 	          // }else{
@@ -1083,12 +1045,7 @@ window.onload = function(){
 	    db.collection("sos").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
 	          if(!app.checkIfUserIsLoggedIn()){
-			    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
-			      console.log('signed in')
-			      app.isuserloggedin = true;
-			    }).catch(function(err){
-			    	console.log(err)
-			    })
+			    authorizeUser();
 			  }
 	          	// if(app.checkVideoData) app.checkVideoData();
 
