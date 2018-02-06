@@ -24,6 +24,7 @@ app.fireConfig = {
 $(".loadingText").text('Initializing...')
 firebase.initializeApp(app.fireConfig);
   // db = firebase.firestore(); 
+
 firebase.firestore().enablePersistence()
   .then(function() {
   db = firebase.firestore(); 
@@ -204,6 +205,7 @@ function getFileBasedOnTime(channel,time,callback){
       }
       callback(nextFile);
   }).catch(function(error) {
+      nextFile = {};
       if(error.message == "Failed to get document because the client is offline."){
           if(channel == "ch1_p")
           {
