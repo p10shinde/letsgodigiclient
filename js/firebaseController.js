@@ -118,7 +118,7 @@ function getFileBasedOnTime(channel,time,callback){
   if (time.isBetween(sh2BeforeTime, sh2AfterTime)) {
     if(channel == "ch2_p") channel = 'ch2_sh2';
     if(channel == "ch3_p") channel = 'ch3_sh2';
-  }
+  }  
 
   time = moment(time).format('YYYY-MM-DD_HH:mm')
   // if(!app.checkIfUserIsLoggedIn()){
@@ -126,7 +126,7 @@ function getFileBasedOnTime(channel,time,callback){
   // }
   docRef = db.collection(channel).doc(app.groupName).collection('data').doc(time);
 
-  if(channel == "ch2_p" || channel == "ch3_p")
+  if(channel == "ch2_p" || channel == "ch3_p" || channel == "fs")
     docRef = db.collection(channel).doc(app.groupName).collection('data').doc(time.split("_")[1]);
 
   if(channel == "ch2_sh1" || channel == "ch2_sh2" || channel == "ch3_sh1" || channel == 'ch3_sh2')
