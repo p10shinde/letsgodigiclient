@@ -5,6 +5,7 @@ window.onerror = function(msg, file, line, col, error) {
 
 //app is not using this deviceID
 var app = {};
+app.ifLoginRequested = false;
 app.deviceid = document.URL.split("?")[1];
 app.groupName = document.URL.split("?")[2];	
 if(!app.deviceid){ app.deviceid = ""; alert('Could not get deviceid')}
@@ -158,15 +159,15 @@ window.onload = function(){
 					// getAvailableCampaign(function(campaignName){
 						campaignName = "campaign1";
 						// initializeChannels();
-						recheck();
-						function recheck(){
-							if(!db) {setTimeout(recheck,500); console.log('rechecking')}
-							else {
+						// recheck();
+						// function recheck(){
+							// if(!db) {setTimeout(recheck,500); console.log('rechecking')}
+							// else {
 								initializeApp(campaignName);
 								checkForVideoAndSOS();
-							}
+							// }
 							
-						}
+						// }
 
 						
 					// })
@@ -314,7 +315,7 @@ window.onload = function(){
 		console.log('Initializing channels.....')
 		app.visibleCampaign = campaignName;
 		$(".loadingText").text('Just there...')
-initializeFirstChannel()
+// initializeFirstChannel()
 
 		function initializeFirstChannel(){
 			getChannelData('ch1_p',getCurrentISODate(),function(firstChannelData){
@@ -569,14 +570,16 @@ initializeFirstChannel()
 		      // console.log('signed in')
 		      app.isuserloggedin = true;
 		    }).catch(function(err){
+		    	app.ifLoginRequested = false;
 		    	console.log(err)
 		    })
 		}
 		
 		// db.collection("ch1_g").doc(app.deviceid).collection('data')
-		db.collection("ch1_g").doc(app.groupName).collection('data')
+		firebase.firestore().collection("ch1_g").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
-	        if(!app.checkIfUserIsLoggedIn()){
+	        if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	        	app.ifLoginRequested = true;
 			    app.authorizeUser()
 			  }
 	       	   	firstll = new CircularList();
@@ -589,9 +592,10 @@ initializeFirstChannel()
             console.log("Initializing Channel 1 general...=>" + querySnapshot.size);
 	    });
 
-	    db.collection("ch1_p").doc(app.groupName).collection('data')
+	    firebase.firestore().collection("ch1_p").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
-	      	if(!app.checkIfUserIsLoggedIn()){
+	      	if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	      		app.ifLoginRequested = true;
 			    app.authorizeUser()
 			  }
       		console.log("Initializing Channel 1 planned...=>" + querySnapshot.size);
@@ -599,9 +603,10 @@ initializeFirstChannel()
       	});  
 
 
-		db.collection("ch2_p").doc(app.groupName).collection('data')
+		firebase.firestore().collection("ch2_p").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
-	          if(!app.checkIfUserIsLoggedIn()){
+	          if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	          	app.ifLoginRequested = true;
 			    app.authorizeUser();
 			  }
 	          	secondll = new CircularList();
@@ -613,9 +618,10 @@ initializeFirstChannel()
 	          	initializeSecondChannel();
       	});
 
-	    db.collection("ch3_p").doc(app.groupName).collection('data')
+	    firebase.firestore().collection("ch3_p").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
-	          if(!app.checkIfUserIsLoggedIn()){
+	          if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	          	app.ifLoginRequested = true;
 			    app.authorizeUser();
 			  }
 	          	thirdll = new CircularList();
@@ -627,9 +633,10 @@ initializeFirstChannel()
 	          	initializeThirdChannel();
       	});
 
-	    db.collection("ch2_sh1").doc(app.groupName).collection('data')
+	    firebase.firestore().collection("ch2_sh1").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
-	        if(!app.checkIfUserIsLoggedIn()){
+	        if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	        	app.ifLoginRequested = true;
 			    app.authorizeUser();
 			  }
 	          secondllSH1 = new CircularList();
@@ -640,9 +647,10 @@ initializeFirstChannel()
                 console.log("Initializing Channel 2 shared1 ...=>" + querySnapshot.size);
 	    });
 
-	    db.collection("ch2_sh2").doc(app.groupName).collection('data')
+	    firebase.firestore().collection("ch2_sh2").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
-	        if(!app.checkIfUserIsLoggedIn()){
+	        if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	        	app.ifLoginRequested = true;
 			    app.authorizeUser();
 			  }
 	          secondllSH2 = new CircularList();
@@ -653,9 +661,10 @@ initializeFirstChannel()
               	console.log("Initializing Channel 2 shared2...=>" + querySnapshot.size);
 	    });
 
-	    db.collection("ch3_sh1").doc(app.groupName).collection('data')
+	    firebase.firestore().collection("ch3_sh1").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
-	        if(!app.checkIfUserIsLoggedIn()){
+	        if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	        	app.ifLoginRequested = true;
 			    app.authorizeUser();
 			  }
 	          thirdllSH1 = new CircularList();
@@ -666,9 +675,10 @@ initializeFirstChannel()
               	console.log("Initializing Channel 3 shared1...=>" + querySnapshot.size);
 	    });
 
-	    db.collection("ch3_sh2").doc(app.groupName).collection('data')
+	    firebase.firestore().collection("ch3_sh2").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
-	        if(!app.checkIfUserIsLoggedIn()){
+	        if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	        	app.ifLoginRequested = true;
 			    app.authorizeUser();
 			  }
 	          thirdllSH2 = new CircularList();
@@ -679,18 +689,20 @@ initializeFirstChannel()
               	console.log("Initializing Channel 3 shared2...=>" + querySnapshot.size);
 	    });
 
-	    // db.collection("tickers").doc(app.deviceid)
-	    db.collection("tickers").doc(app.groupName)
+	    // firebase.firestore().collection("tickers").doc(app.deviceid)
+	    firebase.firestore().collection("tickers").doc(app.groupName)
 	      .onSnapshot(function(querySnapshot) {
-	          	if(!app.checkIfUserIsLoggedIn()){
+	          	if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	          		app.ifLoginRequested = true;
 		    		app.authorizeUser();
 			  	}
           	initializeFourthChannel();
       	});
 
-	    db.collection("sos").doc(app.groupName).collection('data')
+	    firebase.firestore().collection("sos").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
-	          	if(!app.checkIfUserIsLoggedIn()){
+	          	if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	          		app.ifLoginRequested = true;
 			    	app.authorizeUser();
 			  	}
       	});  

@@ -8,11 +8,11 @@ function getCampaignIntervalData(time,callback){
 	})
 }
 
-function getVideoData(time,callback){
-	getVideoFromFirebase(time,function(data){
-		callback(data);
-	})
-}
+// function getVideoData(time,callback){
+// 	getVideoFromFirebase(time,function(data){
+// 		callback(data);
+// 	})
+// }
 
 function getSOSData(time,callback){
 	getSOSFromFirebase(time,function(data){

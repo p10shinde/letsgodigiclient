@@ -2,23 +2,14 @@
 
 var db;
 
-// app.fireConfig = {
-//     apiKey: "AIzaSyCZAKwAQNkBed1tqss0qcepaX2koH1XSss",
-//     authDomain: "digitaladvertisemntsviewdata.firebaseapp.com",
-//     databaseURL: "https://digitaladvertisemntsviewdata.firebaseio.com",
-//     projectId: "digitaladvertisemntsviewdata",
-//     storageBucket: "digitaladvertisemntsviewdata.appspot.com",
-//     messagingSenderId: "1075588574618"
-//   }
-
-app.fireConfig = {
-    apiKey: "AIzaSyB97ywis2ZFyoKpJ_wrMdJqgsJ7S_CDWyQ",
+  app.fireConfig = {
+    apiKey: "AIzaSyA6ZNEl3KaepALyrN3GxioCNxvUzsDtbYo",
     authDomain: "for-lgd-schedule.firebaseapp.com",
     databaseURL: "https://for-lgd-schedule.firebaseio.com",
     projectId: "for-lgd-schedule",
     storageBucket: "for-lgd-schedule.appspot.com",
     messagingSenderId: "848626933775"
-  }
+  };
 
 
 $(".loadingText").text('Initializing...')
@@ -27,7 +18,7 @@ firebase.initializeApp(app.fireConfig);
 
 firebase.firestore().enablePersistence()
   .then(function() {
-  db = firebase.firestore(); 
+  // db = firebase.firestore(); 
   $(".loadingText").text('All set');
     // callback();
   })  
@@ -101,7 +92,7 @@ app.checkIfUserIsLoggedIn = function(){
 
 
 function getFileBasedOnTime(channel,time,callback){
-  console.log(channel + ' is in queue.....')
+  // console.log(channel + ' is in queue.....')
 
 
   var format = 'HH:mm'
@@ -124,25 +115,25 @@ function getFileBasedOnTime(channel,time,callback){
   // if(!app.checkIfUserIsLoggedIn()){
   //   app.authorizeUser();
   // }
-  docRef = db.collection(channel).doc(app.groupName).collection('data').doc(time);
+  docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data').doc(time);
 
   if(channel == "ch2_p" || channel == "ch3_p" || channel == "fs")
-    docRef = db.collection(channel).doc(app.groupName).collection('data').doc(time.split("_")[1]);
+    docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data').doc(time.split("_")[1]);
 
   if(channel == "ch2_sh1" || channel == "ch2_sh2" || channel == "ch3_sh1" || channel == 'ch3_sh2')
-      docRef = db.collection(channel).doc(app.groupName).collection('data').doc();
+      docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data').doc();
   
 
 
   // if(channel == "ch2_p" || channel == "ch3_p")
-  //   docRef = db.collection(channel).doc(app.groupName).collection('data').doc(time);
+  //   docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data').doc(time);
 
   if(channel == "tickers")
-      docRef = db.collection(channel).doc(app.groupName)
+      docRef = firebase.firestore().collection(channel).doc(app.groupName)
 
   
   docRef.get().then(function(doc) {
-  console.log(channel + ' processed.....')
+  // console.log(channel + ' processed.....')
       var nextFile = {};
       if (doc.exists) {
           console.log("Got New Planned data for " + channel);
@@ -298,17 +289,17 @@ function getFileBasedOnTime(channel,time,callback){
 //   })
 // }
 
-function ifFirebaseIsEstablished(){
-  if(!db) return false
-  else{
-    db.collection('campaigns').get().then(function(snapshot){ 
-      console.log("database established");
-    }).catch(function(err){
-      console.log(err);
-    })
-    return true;
-  }
-}
+// function ifFirebaseIsEstablished(){
+//   if(!firebase.firestore()) return false
+//   else{
+//     firebase.firestore().collection('campaigns').get().then(function(snapshot){ 
+//       console.log("database established");
+//     }).catch(function(err){
+//       console.log(err);
+//     })
+//     return true;
+//   }
+// }
 
 // function getCampaignFromFirebase(time,callback){
 //   time = moment(time).format('YYYY-MM-DD')
@@ -335,40 +326,42 @@ function ifFirebaseIsEstablished(){
 //   });
 // }
 
-function getVideoFromFirebase(time,callback){
+// function getVideoFromFirebase(time,callback){
 
-  if(!app.checkIfUserIsLoggedIn()){
-    app.authorizeUser();
+//   if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+//     app.ifLoginRequested = true;
+//     app.authorizeUser();
 
-  }
-  callbackData = {};
-  time = moment(time).format('YYYY-MM-DD_HH:mm')
-  docRef = db.collection('fv_p').doc(app.groupName).collection('data').doc(time)
+//   }
+//   callbackData = {};
+//   time = moment(time).format('YYYY-MM-DD_HH:mm')
+//   docRef = firebase.firestore().collection('fv_p').doc(app.groupName).collection('data').doc(time)
 
-  docRef.get().then(function(doc) {
-      if (doc.exists) {
-          console.log("Received VIDEO request...=>");
-          callbackData.data = doc.data();
-          callbackData.type = "video"
-          callback(callbackData)
-      } else {
-          callback({})
-      }
-  }).catch(function(error) {
-    if(error.message == "Failed to get document because the client is offline."){
-          callback({})
-      }
-      console.log("Error getting document:", error);
-  });
-}
+//   docRef.get().then(function(doc) {
+//       if (doc.exists) {
+//           console.log("Received VIDEO request...=>");
+//           callbackData.data = doc.data();
+//           callbackData.type = "video"
+//           callback(callbackData)
+//       } else {
+//           callback({})
+//       }
+//   }).catch(function(error) {
+//     if(error.message == "Failed to get document because the client is offline."){
+//           callback({})
+//       }
+//       console.log("Error getting document:", error);
+//   });
+// }
 
 function getSOSFromFirebase(time,callback){
-  if(!app.checkIfUserIsLoggedIn()){
+  if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+    app.ifLoginRequested = true;
     app.authorizeUser();
   }
   callbackData = {};
   time = moment(time).format('YYYY-MM-DD_HH:mm')
-  docRef = db.collection('sos').doc(app.groupName).collection('data').doc(time)
+  docRef = firebase.firestore().collection('sos').doc(app.groupName).collection('data').doc(time)
 
   docRef.get().then(function(doc) {
       if (doc.exists) {

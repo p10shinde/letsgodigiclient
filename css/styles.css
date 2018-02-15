@@ -58,13 +58,13 @@ html,body {
 
 
 .ovalWrapper{
-      height: 20px;
+      height: 5%;
     width: 50px;
     border-radius: 10px;
     background-color: black;
     position: absolute;
     right: 1%;
-    top: 95%;
+    top: 94%;
     /*opacity: .4;*/
     color: white;
     font-weight: 700;
