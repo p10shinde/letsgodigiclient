@@ -526,7 +526,7 @@ window.onload = function(){
 		}
 
 		function initializeFourthChannel(){
-			getChannelData('tickers',getCurrentISODate(),function(fourthChannelData){
+			getChannelData('ticker',getCurrentISODate(),function(fourthChannelData){
 				clearTimeout(app.fourthChannelInterval);
 				if(!(Object.keys(fourthChannelData).length === 0 && fourthChannelData.constructor === Object)){
 						console.log('channel 4 updated')
@@ -589,6 +589,16 @@ window.onload = function(){
 	              	firstllArray.push(value.resName);
 		            firstll.add(value.resName, value.duration);
 		        });
+		        try{
+		        	tag_sc = "";
+		        	if($(".contentHolder1").children()[0].tagName == "video"){
+		        		tag_sc = $(".contentHolder1 video source")[0].src
+		        	}else if($(".contentHolder1").children()[0].tagName == "IMG"){
+		        		tag_sc = $(".contentHolder1 img")[0].src
+		        	}
+		        	fileName = tag_sc.match(/(?:[^/][\d\w\-\.]+)$(?<=(?:.jpg)|(?:.mp4))/)[0]
+			        $(".ovalWrapper").text(firstllArray.indexOf(fileName)+1 + "/" + firstllArray.length);
+		        }catch(ex){console.log('error while updating general channel doc count ' + ex)}
             console.log("Initializing Channel 1 general...=>" + querySnapshot.size);
 	    });
 
@@ -689,8 +699,8 @@ window.onload = function(){
               	console.log("Initializing Channel 3 shared2...=>" + querySnapshot.size);
 	    });
 
-	    // firebase.firestore().collection("tickers").doc(app.deviceid)
-	    firebase.firestore().collection("tickers").doc(app.groupName)
+	    // firebase.firestore().collection("ticker").doc(app.deviceid)
+	    firebase.firestore().collection("ticker").doc(app.groupName)
 	      .onSnapshot(function(querySnapshot) {
 	          	if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
 	          		app.ifLoginRequested = true;

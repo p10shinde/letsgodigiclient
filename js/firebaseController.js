@@ -111,7 +111,7 @@ function getFileBasedOnTime(channel,time,callback){
     if(channel == "ch3_p") channel = 'ch3_sh2';
   }  
 
-  time = moment(time).format('YYYY-MM-DD_HH:mm')
+  time = moment(time).format('DD-MM-YYYY_HH:mm')
   // if(!app.checkIfUserIsLoggedIn()){
   //   app.authorizeUser();
   // }
@@ -121,14 +121,14 @@ function getFileBasedOnTime(channel,time,callback){
     docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data').doc(time.split("_")[1]);
 
   if(channel == "ch2_sh1" || channel == "ch2_sh2" || channel == "ch3_sh1" || channel == 'ch3_sh2')
-      docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data').doc();
+      docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data');
   
 
 
   // if(channel == "ch2_p" || channel == "ch3_p")
   //   docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data').doc(time);
 
-  if(channel == "tickers")
+  if(channel == "ticker")
       docRef = firebase.firestore().collection(channel).doc(app.groupName)
 
   
@@ -158,6 +158,24 @@ function getFileBasedOnTime(channel,time,callback){
             nextFile = thirdllSH2.getNextNode();
           }
 
+
+      }else if(doc.docs && doc.docs[0]){
+        nextFile = doc.docs[0].data();
+        if(channel == 'ch2_sh1'){
+            nextFile = secondllSH1.getNextNode();
+          }
+
+          if(channel == 'ch2_sh2'){
+            nextFile = secondllSH2.getNextNode();
+          }
+
+          if(channel == 'ch3_sh1'){
+            nextFile = thirdllSH1.getNextNode();
+          }
+
+          if(channel == 'ch3_sh2'){
+            nextFile = thirdllSH2.getNextNode();
+          }
 
       } else {
           console.log("Got default planned data for " + channel);
@@ -189,7 +207,7 @@ function getFileBasedOnTime(channel,time,callback){
           if(channel == 'ch3_sh2'){
             nextFile = {resName:"../advt/default.png"};
           }
-          else if(channel == "tickers")
+          else if(channel == "ticker")
           {
             nextFile = {startTime : time,text:"WELCOME TO PRATEEK LAUREL"};
           }
@@ -225,7 +243,7 @@ function getFileBasedOnTime(channel,time,callback){
           if(channel == 'ch3_sh2'){
             nextFile = {resName:"../advt/default.png"};
           }
-          else if(channel == "tickers")
+          else if(channel == "ticker")
           {
             nextFile = {startTime : time,text:"WELCOME TO PRATEEK LAUREL"};
           }
@@ -360,7 +378,7 @@ function getSOSFromFirebase(time,callback){
     app.authorizeUser();
   }
   callbackData = {};
-  time = moment(time).format('YYYY-MM-DD_HH:mm')
+  time = moment(time).format('DD-MM-YYYY_HH:mm')
   docRef = firebase.firestore().collection('sos').doc(app.groupName).collection('data').doc(time)
 
   docRef.get().then(function(doc) {
