@@ -566,7 +566,7 @@ window.onload = function(){
 		}
 
 		app.authorizeUser = function(){
-		    firebase.auth().signInWithEmailAndPassword("lgd.prateeklaurel.slave@gmail.com", "LGDsl@ve").then(function(data){
+		    firebase.auth().signInWithEmailAndPassword("lgd.beta.slave@gmail.com", "LGDsl@ve").then(function(data){
 		      // console.log('signed in')
 		      app.isuserloggedin = true;
 		    }).catch(function(err){
