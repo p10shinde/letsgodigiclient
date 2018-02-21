@@ -95,7 +95,7 @@ function getFileBasedOnTime(channel,time,callback){
   // console.log(channel + ' is in queue.....')
 
 
-  var format = 'HH:mm'
+  var format = 'hh:mm_A'
   var time = moment(new Date(time),format),
   sh1BeforeTime = moment('09:00', format),
   sh1AfterTime = moment('14:00', format);
@@ -111,7 +111,7 @@ function getFileBasedOnTime(channel,time,callback){
     if(channel == "ch3_p") channel = 'ch3_sh2';
   }  
 
-  time = moment(time).format('DD-MM-YYYY_HH:mm')
+  time = moment(time).format('DD-MM-YYYY_hh:mm_A')
   // if(!app.checkIfUserIsLoggedIn()){
   //   app.authorizeUser();
   // }
@@ -378,7 +378,7 @@ function getSOSFromFirebase(time,callback){
     app.authorizeUser();
   }
   callbackData = {};
-  time = moment(time).format('DD-MM-YYYY_HH:mm')
+  time = moment(time).format('DD-MM-YYYY_hh:mm_A')
   docRef = firebase.firestore().collection('sos').doc(app.groupName).collection('data').doc(time)
 
   docRef.get().then(function(doc) {
