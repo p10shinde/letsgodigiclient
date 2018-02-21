@@ -81,9 +81,9 @@ var firstll = new CircularList();
 var secondll = new CircularList();
 var secondllSH1 = new CircularList();
 var secondllSH2 = new CircularList();
-var thirdllSH1 = new CircularList();
-var thirdllSH2 = new CircularList();
-var thirdll = new CircularList();
+// var thirdllSH1 = new CircularList();
+// var thirdllSH2 = new CircularList();
+// var thirdll = new CircularList();
 var fourthll = new CircularList();
 
 app.checkIfUserIsLoggedIn = function(){
@@ -104,11 +104,11 @@ function getFileBasedOnTime(channel,time,callback){
   sh2AfterTime = moment('18:00', format);
   if (time.isBetween(sh1BeforeTime, sh1AfterTime)) {
     if(channel == "ch2_p") channel = 'ch2_sh1'
-    if(channel == "ch3_p") channel = 'ch3_sh1'
+    // if(channel == "ch3_p") channel = 'ch3_sh1'
   }
   if (time.isBetween(sh2BeforeTime, sh2AfterTime)) {
     if(channel == "ch2_p") channel = 'ch2_sh2';
-    if(channel == "ch3_p") channel = 'ch3_sh2';
+    // if(channel == "ch3_p") channel = 'ch3_sh2';
   }  
 
   time = moment(time).format('DD-MM-YYYY_hh:mm_A')
@@ -117,10 +117,10 @@ function getFileBasedOnTime(channel,time,callback){
   // }
   docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data').doc(time);
 
-  if(channel == "ch2_p" || channel == "ch3_p" || channel == "fs")
+  if(channel == "ch2_p" || channel == "fs")// || channel == "ch3_p")
     docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data').doc(time.split("_")[1]);
 
-  if(channel == "ch2_sh1" || channel == "ch2_sh2" || channel == "ch3_sh1" || channel == 'ch3_sh2')
+  if(channel == "ch2_sh1" || channel == "ch2_sh2")// || channel == "ch3_sh1" || channel == 'ch3_sh2')
       docRef = firebase.firestore().collection(channel).doc(app.groupName).collection('data');
   
 
@@ -150,13 +150,13 @@ function getFileBasedOnTime(channel,time,callback){
             nextFile = secondllSH2.getNextNode();
           }
 
-          if(channel == 'ch3_sh1'){
-            nextFile = thirdllSH1.getNextNode();
-          }
+          // if(channel == 'ch3_sh1'){
+          //   nextFile = thirdllSH1.getNextNode();
+          // }
 
-          if(channel == 'ch3_sh2'){
-            nextFile = thirdllSH2.getNextNode();
-          }
+          // if(channel == 'ch3_sh2'){
+          //   nextFile = thirdllSH2.getNextNode();
+          // }
 
 
       }else if(doc.docs && doc.docs[0]){
@@ -169,13 +169,13 @@ function getFileBasedOnTime(channel,time,callback){
             nextFile = secondllSH2.getNextNode();
           }
 
-          if(channel == 'ch3_sh1'){
-            nextFile = thirdllSH1.getNextNode();
-          }
+          // if(channel == 'ch3_sh1'){
+          //   nextFile = thirdllSH1.getNextNode();
+          // }
 
-          if(channel == 'ch3_sh2'){
-            nextFile = thirdllSH2.getNextNode();
-          }
+          // if(channel == 'ch3_sh2'){
+          //   nextFile = thirdllSH2.getNextNode();
+          // }
 
       } else {
           console.log("Got default planned data for " + channel);
@@ -188,10 +188,10 @@ function getFileBasedOnTime(channel,time,callback){
           {
             nextFile = {resName:"../advt/default.png"};
           }
-          else if(channel == "ch3_p")
-          {
-            nextFile = {resName:"../advt/default.png"};
-          }
+          // else if(channel == "ch3_p")
+          // {
+          //   nextFile = {resName:"../advt/default.png"};
+          // }
           if(channel == 'ch2_sh1'){
             nextFile = {resName:"../advt/default.png"};
           }
@@ -200,13 +200,13 @@ function getFileBasedOnTime(channel,time,callback){
             nextFile = {resName:"../advt/default.png"};
           }
 
-          if(channel == 'ch3_sh1'){
-            nextFile = {resName:"../advt/default.png"};
-          }
+          // if(channel == 'ch3_sh1'){
+          //   nextFile = {resName:"../advt/default.png"};
+          // }
 
-          if(channel == 'ch3_sh2'){
-            nextFile = {resName:"../advt/default.png"};
-          }
+          // if(channel == 'ch3_sh2'){
+          //   nextFile = {resName:"../advt/default.png"};
+          // }
           else if(channel == "ticker")
           {
             nextFile = {startTime : time,text:"WELCOME TO PRATEEK LAUREL"};
@@ -224,10 +224,10 @@ function getFileBasedOnTime(channel,time,callback){
           {
             nextFile = {resName:"../advt/default.png"};
           }
-          else if(channel == "ch3_p")
-          {
-            nextFile = {resName:"../advt/default.png"};
-          }
+          // else if(channel == "ch3_p")
+          // {
+          //   nextFile = {resName:"../advt/default.png"};
+          // }
           if(channel == 'ch2_sh1'){
             nextFile = {resName:"../advt/default.png"};
           }
@@ -236,13 +236,13 @@ function getFileBasedOnTime(channel,time,callback){
             nextFile = {resName:"../advt/default.png"};
           }
 
-          if(channel == 'ch3_sh1'){
-            nextFile = {resName:"../advt/default.png"};
-          }
+          // if(channel == 'ch3_sh1'){
+          //   nextFile = {resName:"../advt/default.png"};
+          // }
 
-          if(channel == 'ch3_sh2'){
-            nextFile = {resName:"../advt/default.png"};
-          }
+          // if(channel == 'ch3_sh2'){
+          //   nextFile = {resName:"../advt/default.png"};
+          // }
           else if(channel == "ticker")
           {
             nextFile = {startTime : time,text:"WELCOME TO PRATEEK LAUREL"};

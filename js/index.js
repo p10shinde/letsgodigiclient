@@ -42,8 +42,8 @@ app.firstChannelIntervalTime;
 app.secondChannelInterval;
 app.secondChannelIntervalTime;
 
-app.thirdChannelInterval;
-app.thirdChannelIntervalTime;
+// app.thirdChannelInterval;
+// app.thirdChannelIntervalTime;
 
 app.fourthChannelInterval;
 app.fourthChannelIntervalTime;
@@ -127,7 +127,7 @@ window.onload = function(){
 			"master_plan_interval":60000,
 			"firstChannelIntervalTime" : 20,
 			"secondChannelIntervalTime" : 20,
-			"thirdChannelIntervalTime" : 20,
+			// "thirdChannelIntervalTime" : 20,
 			"fourthChannelIntervalTime" : 20,
 			"fullscreenChannelIntervalTime" : 10,
 			"videoAndSOSIntervalTime" : 1,
@@ -146,7 +146,7 @@ window.onload = function(){
 			app.campaignIntervalTime = configData.campaignIntervalTime;
 			app.firstChannelIntervalTime = configData.firstChannelIntervalTime;
 			app.secondChannelIntervalTime = configData.secondChannelIntervalTime;
-			app.thirdChannelIntervalTime = configData.thirdChannelIntervalTime;
+			// app.thirdChannelIntervalTime = configData.thirdChannelIntervalTime;
 			app.fourthChannelIntervalTime = configData.fourthChannelIntervalTime;
 			app.fullscreenChannelIntervalTime = configData.fullscreenChannelIntervalTime;
 			app.videoAndSOSIntervalTime = configData.videoAndSOSIntervalTime;
@@ -425,59 +425,59 @@ window.onload = function(){
 			});
 		}
 
-		function initializeThirdChannel(){
-			getChannelData('ch3_p',getCurrentISODate(),function(thirdChannelData){
-				clearTimeout(app.thirdChannelInterval);
-				if(!(Object.keys(thirdChannelData).length === 0 && thirdChannelData.constructor === Object)){
-						console.log('channel 3 updated')
-						if(getResType(thirdChannelData.resName) == "image"){
-							$("." + app.visibleCampaign + " .contentHolder3").empty();
-							$("." + app.visibleCampaign + " .contentHolder3").append(app.imageElements.image3);
-							$("." + app.visibleCampaign + " .contentHolder3 #img3").attr('src', URL + "/" + app.advtFolder + "/" + thirdChannelData.resName);
-							$("." + app.visibleCampaign + " .contentHolder3 #vid3").hide();
-							$("." + app.visibleCampaign + " .contentHolder3 #img3").show();
+		// function initializeThirdChannel(){
+		// 	getChannelData('ch3_p',getCurrentISODate(),function(thirdChannelData){
+		// 		clearTimeout(app.thirdChannelInterval);
+		// 		if(!(Object.keys(thirdChannelData).length === 0 && thirdChannelData.constructor === Object)){
+		// 				console.log('channel 3 updated')
+		// 				if(getResType(thirdChannelData.resName) == "image"){
+		// 					$("." + app.visibleCampaign + " .contentHolder3").empty();
+		// 					$("." + app.visibleCampaign + " .contentHolder3").append(app.imageElements.image3);
+		// 					$("." + app.visibleCampaign + " .contentHolder3 #img3").attr('src', URL + "/" + app.advtFolder + "/" + thirdChannelData.resName);
+		// 					$("." + app.visibleCampaign + " .contentHolder3 #vid3").hide();
+		// 					$("." + app.visibleCampaign + " .contentHolder3 #img3").show();
 
-						}else if(getResType(thirdChannelData.resName) == "video"){
-							$("." + app.visibleCampaign + " .contentHolder3").empty();
-							$("." + app.visibleCampaign + " .contentHolder3").append(app.videoElements.video3);
-							$("." + app.visibleCampaign + " .contentHolder3 #vid3").append('<source src="' + URL + "/" + app.advtFolder + "/" + thirdChannelData.resName + '" type="video/mp4">');
-							$("." + app.visibleCampaign + " .contentHolder3 #img3").hide();
-							$("." + app.visibleCampaign + " .contentHolder3 #vid3").show();
-						}
-						if(thirdChannelData.duration){
-							// if user starts in between time then calcultae remaining time 
-							// for that slot and get next content after that duration
-							endTimeFOrCurrentSlot = moment(new Date());
-							remainder = 5 - endTimeFOrCurrentSlot.minute() % 5;
-							nextEndTimeMinute = moment(endTimeFOrCurrentSlot).add(remainder,"minutes").startOf('minute').minute()
-							if(nextEndTimeMinute == 0) nextEndTimeMinute = 60; 
+		// 				}else if(getResType(thirdChannelData.resName) == "video"){
+		// 					$("." + app.visibleCampaign + " .contentHolder3").empty();
+		// 					$("." + app.visibleCampaign + " .contentHolder3").append(app.videoElements.video3);
+		// 					$("." + app.visibleCampaign + " .contentHolder3 #vid3").append('<source src="' + URL + "/" + app.advtFolder + "/" + thirdChannelData.resName + '" type="video/mp4">');
+		// 					$("." + app.visibleCampaign + " .contentHolder3 #img3").hide();
+		// 					$("." + app.visibleCampaign + " .contentHolder3 #vid3").show();
+		// 				}
+		// 				if(thirdChannelData.duration){
+		// 					// if user starts in between time then calcultae remaining time 
+		// 					// for that slot and get next content after that duration
+		// 					endTimeFOrCurrentSlot = moment(new Date());
+		// 					remainder = 5 - endTimeFOrCurrentSlot.minute() % 5;
+		// 					nextEndTimeMinute = moment(endTimeFOrCurrentSlot).add(remainder,"minutes").startOf('minute').minute()
+		// 					if(nextEndTimeMinute == 0) nextEndTimeMinute = 60; 
 
-							currentTimeMinute = moment(moment(new Date()).startOf('minute').toISOString()).minute();
+		// 					currentTimeMinute = moment(moment(new Date()).startOf('minute').toISOString()).minute();
 
-							duration = nextEndTimeMinute - currentTimeMinute;
-							app.thirdChannelIntervalTime = duration;
-						}else{
-							// if user starts in between time then calcultae remaining time 
-							// for that slot and get next content after that duration
-							endTimeFOrCurrentSlot = moment(new Date());
-							remainder = 20 - endTimeFOrCurrentSlot.minute() % 20;
-							nextEndTimeMinute = moment(endTimeFOrCurrentSlot).add(remainder,"minutes").startOf('minute').minute()
-							if(nextEndTimeMinute == 0) nextEndTimeMinute = 60; 
+		// 					duration = nextEndTimeMinute - currentTimeMinute;
+		// 					app.thirdChannelIntervalTime = duration;
+		// 				}else{
+		// 					// if user starts in between time then calcultae remaining time 
+		// 					// for that slot and get next content after that duration
+		// 					endTimeFOrCurrentSlot = moment(new Date());
+		// 					remainder = 20 - endTimeFOrCurrentSlot.minute() % 20;
+		// 					nextEndTimeMinute = moment(endTimeFOrCurrentSlot).add(remainder,"minutes").startOf('minute').minute()
+		// 					if(nextEndTimeMinute == 0) nextEndTimeMinute = 60; 
 
-							currentTimeMinute = moment(moment(new Date()).startOf('minute').toISOString()).minute();
+		// 					currentTimeMinute = moment(moment(new Date()).startOf('minute').toISOString()).minute();
 
-							duration = nextEndTimeMinute - currentTimeMinute;
-							app.thirdChannelIntervalTime = duration;
-						}
-				}
-				console.warn("ch3-> "+app.thirdChannelIntervalTime)
-				app.thirdChannelInterval = setTimeout(function(){
-					console.log('started')
-					initializeThirdChannel();
-				},app.thirdChannelIntervalTime * 60000)
-				$(".loadingDiv").hide()
-			});
-		}
+		// 					duration = nextEndTimeMinute - currentTimeMinute;
+		// 					app.thirdChannelIntervalTime = duration;
+		// 				}
+		// 		}
+		// 		console.warn("ch3-> "+app.thirdChannelIntervalTime)
+		// 		app.thirdChannelInterval = setTimeout(function(){
+		// 			console.log('started')
+		// 			initializeThirdChannel();
+		// 		},app.thirdChannelIntervalTime * 60000)
+		// 		$(".loadingDiv").hide()
+		// 	});
+		// }
 
 		initializeFullscreenChannel();
 		function initializeFullscreenChannel(){
@@ -628,20 +628,20 @@ window.onload = function(){
 	          	initializeSecondChannel();
       	});
 
-	    firebase.firestore().collection("ch3_p").doc(app.groupName).collection('data')
-	      .onSnapshot(function(querySnapshot) {
-	          if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
-	          	app.ifLoginRequested = true;
-			    app.authorizeUser();
-			  }
-	          	thirdll = new CircularList();
-		          	querySnapshot.forEach(function(doc) {
-	            		value = doc.data();
-		              	thirdll.add(value.resName, value.duration);
-		        	});
-              	console.log("Initializing Channel 3 general...=>" + querySnapshot.size);
-	          	initializeThirdChannel();
-      	});
+	    // firebase.firestore().collection("ch3_p").doc(app.groupName).collection('data')
+	    //   .onSnapshot(function(querySnapshot) {
+	    //       if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	    //       	app.ifLoginRequested = true;
+			  //   app.authorizeUser();
+			  // }
+	    //       	thirdll = new CircularList();
+		   //        	querySnapshot.forEach(function(doc) {
+	    //         		value = doc.data();
+		   //            	thirdll.add(value.resName, value.duration);
+		   //      	});
+     //          	console.log("Initializing Channel 3 general...=>" + querySnapshot.size);
+	    //       	initializeThirdChannel();
+     //  	});
 
 	    firebase.firestore().collection("ch2_sh1").doc(app.groupName).collection('data')
 	      .onSnapshot(function(querySnapshot) {
@@ -671,33 +671,33 @@ window.onload = function(){
               	console.log("Initializing Channel 2 shared2...=>" + querySnapshot.size);
 	    });
 
-	    firebase.firestore().collection("ch3_sh1").doc(app.groupName).collection('data')
-	      .onSnapshot(function(querySnapshot) {
-	        if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
-	        	app.ifLoginRequested = true;
-			    app.authorizeUser();
-			  }
-	          thirdllSH1 = new CircularList();
-	          		querySnapshot.forEach(function(doc) {
-	              		value = doc.data();
-	              		thirdllSH1.add(value.resName, value.duration);
-	        		});
-              	console.log("Initializing Channel 3 shared1...=>" + querySnapshot.size);
-	    });
+	    // firebase.firestore().collection("ch3_sh1").doc(app.groupName).collection('data')
+	    //   .onSnapshot(function(querySnapshot) {
+	    //     if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	    //     	app.ifLoginRequested = true;
+			  //   app.authorizeUser();
+			  // }
+	    //       thirdllSH1 = new CircularList();
+	    //       		querySnapshot.forEach(function(doc) {
+	    //           		value = doc.data();
+	    //           		thirdllSH1.add(value.resName, value.duration);
+	    //     		});
+     //          	console.log("Initializing Channel 3 shared1...=>" + querySnapshot.size);
+	    // });
 
-	    firebase.firestore().collection("ch3_sh2").doc(app.groupName).collection('data')
-	      .onSnapshot(function(querySnapshot) {
-	        if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
-	        	app.ifLoginRequested = true;
-			    app.authorizeUser();
-			  }
-	          thirdllSH2 = new CircularList();
-	          		querySnapshot.forEach(function(doc) {
-	              		value = doc.data();
-	              		thirdllSH2.add(value.resName, value.duration);
-	        		});
-              	console.log("Initializing Channel 3 shared2...=>" + querySnapshot.size);
-	    });
+	    // firebase.firestore().collection("ch3_sh2").doc(app.groupName).collection('data')
+	    //   .onSnapshot(function(querySnapshot) {
+	    //     if(!app.checkIfUserIsLoggedIn() && !app.ifLoginRequested){
+	    //     	app.ifLoginRequested = true;
+			  //   app.authorizeUser();
+			  // }
+	    //       thirdllSH2 = new CircularList();
+	    //       		querySnapshot.forEach(function(doc) {
+	    //           		value = doc.data();
+	    //           		thirdllSH2.add(value.resName, value.duration);
+	    //     		});
+     //          	console.log("Initializing Channel 3 shared2...=>" + querySnapshot.size);
+	    // });
 
 	    // firebase.firestore().collection("ticker").doc(app.deviceid)
 	    firebase.firestore().collection("ticker").doc(app.groupName)
