@@ -180,6 +180,37 @@ video{
 }
 
 
+#contentListContainer{
+  position: fixed;
+    right: 0;
+    top: 6%;
+    z-index: 1;
+}
+
+/*ellipsis plugin*/
+.ellip {
+  display: block;
+  height: 100%;
+}
+ 
+.ellip-line {
+  display: list-item;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    max-width: 65%;
+}
+ 
+.ellip,
+.ellip-line {
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+
+
 /* Large desktops and laptops */
 @media (min-width: 1200px) {
   .col-md-65-percent{
@@ -228,3 +259,4 @@ video{
 @media (max-width: 480px) {
 
 }
+

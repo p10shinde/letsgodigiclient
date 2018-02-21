@@ -663,11 +663,19 @@ window.onload = function(){
 	        	app.ifLoginRequested = true;
 			    app.authorizeUser();
 			  }
+			  var listItem = "";
+			  listItem = "<li>heelo.jpg</li><li>aksd.jpg</li><li>kwehfiwjef.jpg</li>"
 	          secondllSH2 = new CircularList();
 	          		querySnapshot.forEach(function(doc) {
 	              		value = doc.data();
+	              		listItem += "<li>" + value + "</li>"
 	              		secondllSH2.add(value.resName, value.duration);
 	        		});
+	          	$("#contentList").empty()
+	          	$("#contentList").append(listItem);
+	          	$("#contentList li").addClass('ellip-line');
+
+
               	console.log("Initializing Channel 2 shared2...=>" + querySnapshot.size);
 	    });
 
